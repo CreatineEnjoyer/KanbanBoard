@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Controls
 
 Window {
     id: windowId
@@ -28,15 +29,22 @@ Window {
             // Add Column
             Rectangle {
                 width: 200
-                height: windowId.height
+                height: windowId.height - 80
                 color: "#dddddd"
                 radius: 8
                 border.color: "#aaaaaa"
                 Text {
+                    id: columnName
                     text: "+ Add Column"
                     anchors.centerIn: parent
                     font.pixelSize: 16
                     color: "#333333"
+                }
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        kanbanModel.addColumn(columnName.text);
+                    }
                 }
             }
         }

@@ -1,11 +1,18 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include "kanbanmodel.h"
+#include <QQmlContext>
 
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
+
+    KanbanModel kanbanModel;
+
+    engine.rootContext()->setContextProperty("kanbanModel", &kanbanModel);
+
     QObject::connect(
         &engine,
         &QQmlApplicationEngine::objectCreationFailed,

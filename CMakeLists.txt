@@ -22,6 +22,7 @@ qt_add_qml_module(appKanbanBoard
         SOURCES databasemanager.h databasemanager.cpp
         QML_FILES KanbanColumn.qml
         QML_FILES KanbanTask.qml
+        SOURCES column.h column.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
