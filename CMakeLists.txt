@@ -18,9 +18,7 @@ qt_add_qml_module(appKanbanBoard
     QML_FILES
         Main.qml
         SOURCES kanbanmodel.h kanbanmodel.cpp
-        SOURCES columnmodel.h columnmodel.cpp
         SOURCES taskmodel.h taskmodel.cpp
-        SOURCES kanbancontroller.h kanbancontroller.cpp
         SOURCES databasemanager.h databasemanager.cpp
         QML_FILES KanbanColumn.qml
         QML_FILES KanbanTask.qml
