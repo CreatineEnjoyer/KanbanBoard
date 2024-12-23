@@ -38,4 +38,13 @@ void TaskModel::addTask(const QString &title, const QString &description) {
     endInsertRows();
 }
 
+void TaskModel::removeTask(int index) {
+    if (index < 0 || index >= m_tasks.size())
+        return;
+
+    beginRemoveRows(QModelIndex(), index, index);
+    m_tasks.removeAt(index);
+    endRemoveRows();
+}
+
 

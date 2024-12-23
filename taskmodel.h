@@ -24,6 +24,7 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
     Q_INVOKABLE void addTask(const QString &title, const QString &description);
+    Q_INVOKABLE void removeTask(int index);
 
 private:
     QList<Task> m_tasks;

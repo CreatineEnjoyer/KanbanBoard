@@ -1,4 +1,6 @@
 import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 
 Item {
     property alias taskTitle: taskTitle.text
@@ -22,13 +24,21 @@ Item {
             anchors.fill: parent
             anchors.margins: 5
 
-            Text {
-                id: taskTitle
-                font.pixelSize: 16
-                color: "black"
-                text: "Task Title"
+            RowLayout {
+                Layout.fillWidth: true
+                Text {
+                    id: taskTitle
+                    font.pixelSize: 16
+                    color: "black"
+                    text: "Task Title"
+                }
+                Button {
+                    text: "X"
+                    onClicked: {
+                        kanbanModel.removeTask(sourceColumn, sourceTask);
+                    }
+                }
             }
-
             Text {
                 id: taskDescription
                 font.pixelSize: 12
