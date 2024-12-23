@@ -29,7 +29,6 @@ Item {
                     kanbanModel.removeColumn(columnIndex);
                 }
             }
-
         }
 
         ListView {
@@ -44,5 +43,15 @@ Item {
                 sourceTask: index
             }
         }
+        Button {
+            Layout.alignment: Qt.AlignTop
+            Layout.fillWidth: true
+            text: "+ Add Task"
+            font.bold: true
+            onClicked: {
+                kanbanModel.addTask(columnIndex, "New Task", "Description");
+            }
+        }
+
     }
 }

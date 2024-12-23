@@ -23,6 +23,8 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
 
+    Q_INVOKABLE void addTask(const QString &title, const QString &description);
+
 private:
     QList<Task> m_tasks;
 };

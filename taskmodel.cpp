@@ -32,3 +32,10 @@ QHash<int, QByteArray> TaskModel::roleNames() const {
     return roles;
 }
 
+void TaskModel::addTask(const QString &title, const QString &description) {
+    beginInsertRows(QModelIndex(), m_tasks.size(), m_tasks.size());
+    m_tasks.append({title, description});
+    endInsertRows();
+}
+
+

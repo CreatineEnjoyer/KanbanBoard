@@ -24,6 +24,7 @@ public:
 
     Q_INVOKABLE void addColumn(const QString &columnName);
     Q_INVOKABLE void removeColumn(int index);
+    Q_INVOKABLE void addTask(int index, const QString &title, const QString &description);
 
 private:
     QList<Column> m_columns;
