@@ -8,7 +8,7 @@ Item {
     property int sourceColumn: -1
     property int sourceTask: -1
 
-    width: parent.width
+    width: 200
     height: 50
 
     Rectangle {

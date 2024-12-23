@@ -15,7 +15,6 @@ Item {
 
         RowLayout {
             Layout.fillWidth: true
-
             Text {
                 id: columnText
                 text: ""
@@ -42,7 +41,6 @@ Item {
                 taskDescription: model.description
                 sourceColumn: columnIndex
                 sourceTask: index
-
             }
         }
         Button {
@@ -54,6 +52,5 @@ Item {
                 kanbanModel.addTask(columnIndex, "New Task", "Description");
             }
         }
-
     }
 }
