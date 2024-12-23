@@ -1,9 +1,10 @@
 import QtQuick
 import QtQuick.Layouts
+import QtQuick.Controls
 
 Item {
     property int columnIndex: -1
-    property alias columnTitle: columnTitle.text
+    property alias columnTitle: columnText.text
     property var columnTasks
 
     width: 200
@@ -15,13 +16,20 @@ Item {
         RowLayout {
             Layout.fillWidth: true
             Text {
-                id: columnTitle
-                text: "coluumnsas"
+                id: columnText
+                text: ""
                 font.pixelSize: 16
                 color: "black"
                 font.bold: true
                 Layout.fillWidth: true
             }
+            Button {
+                text: "X"
+                onClicked: {
+                    kanbanModel.removeColumn(columnIndex);
+                }
+            }
+
         }
 
         ListView {

@@ -8,7 +8,6 @@ Window {
     visible: true
     title: qsTr("Hello World")
 
-
     Flickable {
         anchors.fill: parent
         contentWidth: kanbanColumns.width
@@ -25,25 +24,40 @@ Window {
                     columnTasks: model.tasks
                 }
             }
-
             // Add Column
             Rectangle {
                 width: 200
                 height: windowId.height - 80
-                color: "#dddddd"
-                radius: 8
-                border.color: "#aaaaaa"
-                Text {
+                TextField {
                     id: columnName
-                    text: "+ Add Column"
-                    anchors.centerIn: parent
+                    width: parent.width
+                    text: "Set Column Name"
                     font.pixelSize: 16
-                    color: "#333333"
+                    color: "black"
+                    font.bold: true
+                }
+                Rectangle {
+                    id: newColumn
+                    anchors.top: columnName.bottom
+                    height: 400
+                    color: "#dddddd"
+                    radius: 8
+                    border.color: "#aaaaaa"
+                    width: parent.width
+                    Text {
+                        text: "+ Add Column"
+                        anchors.centerIn: parent
+                        font.pixelSize: 16
+                        color: "#333333"
+                    }
                 }
                 MouseArea {
-                    anchors.fill: parent
+                    anchors.fill: newColumn
                     onClicked: {
-                        kanbanModel.addColumn(columnName.text);
+                        if (columnName.text.length != 0) {
+                            kanbanModel.addColumn(columnName.text);
+                            columnName.text = ""
+                        }
                     }
                 }
             }

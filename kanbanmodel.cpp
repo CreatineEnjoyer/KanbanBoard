@@ -39,31 +39,19 @@ QHash<int, QByteArray> KanbanModel::roleNames() const {
     return roles;
 }
 
-bool KanbanModel::setData(const QModelIndex &index, const QVariant &value, int role) {
-    bool ret = false;
-
-    if(index.row() >= 0 && index.row() < m_columns.count()) {
-        Column &column = m_columns[index.row()];
-
-        switch (role) {
-            case NameRole:
-                column.setColumnName(value.toString());
-                ret = true;
-                break;
-            default:
-                return false;
-        }
-
-        if (ret)
-            emit dataChanged(index, index);
-    }
-
-    return ret;
-}
-
 void KanbanModel::addColumn(const QString &columnName) {
     Column column(columnName, new TaskModel(this));
     beginInsertRows(QModelIndex(), m_columns.size(), m_columns.size());
     m_columns.append(column);
     endInsertRows();
+}
+
+void KanbanModel::removeColumn(int index) {
+    if (index < 0 || index >= m_columns.size())
+        return;
+
+    beginRemoveRows(QModelIndex(), index, index);
+    delete m_columns[index].tasks; // Cleanup
+    m_columns.removeAt(index);
+    endRemoveRows();
 }

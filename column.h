@@ -9,8 +9,6 @@ public:
     explicit Column(const QString &columnName, TaskModel *tasks);
     QString name;
     TaskModel *tasks;
-
-    void setColumnName(const QString &newColumnName);
 };
 
 #endif // COLUMN_H
