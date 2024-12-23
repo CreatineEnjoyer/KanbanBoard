@@ -7,17 +7,18 @@ Item {
     property alias taskDescription: taskDescription.text
     property int sourceColumn: -1
     property int sourceTask: -1
+    property int priority: 0
 
     width: 200
-    height: 50
+    height: 40  + taskDescription.height
 
     Rectangle {
         id: taskContainer
         width: parent.width
         height: parent.height
-        color: "lightblue"
+        color: priority === 1 ? "orangered" : priority === 2 ? "yellow" : "lime"
         radius: 5
-        border.color: "blue"
+        border.color: priority === 1 ? "red" : priority === 2 ? "orange" : "green"
         border.width: 1
 
         Column {
@@ -42,7 +43,7 @@ Item {
             Text {
                 id: taskDescription
                 font.pixelSize: 12
-                color: "gray"
+                color: "black"
                 text: "Task Description"
                 wrapMode: Text.WordWrap
                 visible: taskDescription.text.length > 0

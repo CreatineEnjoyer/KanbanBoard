@@ -39,7 +39,7 @@ Window {
                 Rectangle {
                     id: newColumn
                     anchors.top: columnName.bottom
-                    height: windowId.height - 130
+                    height: parent.height + 50
                     color: "#dddddd"
                     radius: 8
                     border.color: "#aaaaaa"

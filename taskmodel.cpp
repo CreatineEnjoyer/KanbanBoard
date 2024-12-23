@@ -20,6 +20,8 @@ QVariant TaskModel::data(const QModelIndex &index, int role) const {
             return task.title;
         case DescriptionRole:
             return task.description;
+        case PriorityRole:
+            return task.priority;
         default:
             return QVariant();
     }
@@ -29,12 +31,13 @@ QHash<int, QByteArray> TaskModel::roleNames() const {
     QHash<int, QByteArray> roles;
     roles[TitleRole] = "title";
     roles[DescriptionRole] = "description";
+    roles[PriorityRole] = "priority";
     return roles;
 }
 
-void TaskModel::addTask(const QString &title, const QString &description) {
+void TaskModel::addTask(const QString &title, const QString &description, int priority) {
     beginInsertRows(QModelIndex(), m_tasks.size(), m_tasks.size());
-    m_tasks.append({title, description});
+    m_tasks.append({title, description, priority});
     endInsertRows();
 }
 

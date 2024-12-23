@@ -56,9 +56,9 @@ void KanbanModel::removeColumn(int index) {
     endRemoveRows();
 }
 
-void KanbanModel::addTask(int columnId, const QString &title, const QString &description) {
+void KanbanModel::addTask(int columnId, const QString &title, const QString &description, int priority) {
     TaskModel *targetTasks = m_columns[columnId].tasks;
-    targetTasks->addTask(title, description);
+    targetTasks->addTask(title, description, priority);
 }
 
 void KanbanModel::removeTask(int columnId, int taskId) {
