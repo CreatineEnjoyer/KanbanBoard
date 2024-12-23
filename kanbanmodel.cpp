@@ -51,7 +51,7 @@ void KanbanModel::removeColumn(int index) {
         return;
 
     beginRemoveRows(QModelIndex(), index, index);
-    delete m_columns[index].tasks; // Cleanup
+    delete m_columns[index].tasks;
     m_columns.removeAt(index);
     endRemoveRows();
 }
@@ -64,4 +64,29 @@ void KanbanModel::addTask(int columnId, const QString &title, const QString &des
 void KanbanModel::removeTask(int columnId, int taskId) {
     TaskModel *targetTasks = m_columns[columnId].tasks;
     targetTasks->removeTask(taskId);
+}
+
+void KanbanModel::moveTask(int sourceColumn, int sourceTask, int targetColumn) {
+    if (sourceColumn < 0 || sourceColumn >= m_columns.size() ||
+        targetColumn < 0 || targetColumn >= m_columns.size()) {
+        return;
+    }
+
+    TaskModel *sourceTasks = m_columns[sourceColumn].tasks;
+    TaskModel *targetTasks = m_columns[targetColumn].tasks;
+
+    if (sourceTask < 0 || sourceTask >= sourceTasks->rowCount()) {
+        return;
+    }
+
+    // Retrieve task details
+    QString title = sourceTasks->data(sourceTasks->index(sourceTask), TaskModel::TitleRole).toString();
+    QString description = sourceTasks->data(sourceTasks->index(sourceTask), TaskModel::DescriptionRole).toString();
+    int priority = sourceTasks->data(sourceTasks->index(sourceTask), TaskModel::PriorityRole).toInt();
+
+    // Remove task from source
+    sourceTasks->removeTask(sourceTask);
+
+    // Add task to target
+    targetTasks->addTask(title, description, priority);
 }

@@ -2,40 +2,43 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 
-Item {
+ColumnLayout {
+    id: col
     property int columnIndex: -1
     property alias columnTitle: columnText.text
     property var columnTasks
 
     width: 200
     height: parent.height
-
-    ColumnLayout {
-        anchors.fill: parent
-
-        RowLayout {
-            Layout.fillWidth: true
-            Text {
-                id: columnText
-                text: ""
-                font.pixelSize: 16
-                color: "black"
-                font.bold: true
-                Layout.fillWidth: true
-            }
-            Button {
-                text: "X"
-                onClicked: {
-                    kanbanModel.removeColumn(columnIndex);
-                }
+    Row {
+        width: col.width
+        Layout.maximumHeight: 40
+        Text {
+            id: columnText
+            text: ""
+            font.pixelSize: 16
+            color: "black"
+            font.bold: true
+            width: col.width - 20
+            height: 40
+        }
+        Button {
+            text: "X"
+            onClicked: {
+                kanbanModel.removeColumn(columnIndex);
             }
         }
+    }
 
+    Flickable {
+        id: flickable
+        contentHeight: tasksList.contentHeight
+        Layout.minimumHeight: parent.height
         ListView {
             id: tasksList
-            Layout.fillWidth: true
-            Layout.fillHeight: true
+            anchors.fill: parent
             model: columnTasks
+
             delegate: KanbanTask {
                 taskTitle: model.title
                 taskDescription: model.description
@@ -43,10 +46,60 @@ Item {
                 sourceTask: index
                 priority: model.priority
             }
+            spacing: 5
         }
+
+        DropArea {
+            id: dropArea
+            anchors.top: tasksList.bottom
+            width: col.width
+            height: 100
+
+            Rectangle {
+                id:dropRect
+                width: parent.width
+                height: parent.height
+                color: "#55dddddd"
+                radius: 8
+                border.color: "#aaaaaa"
+                visible: false
+            }
+            Text {
+                id: dropText
+                text: "Drop here"
+                anchors.centerIn: parent
+                font.pixelSize: 16
+                color: "#333333"
+                visible: false
+            }
+
+            onEntered: {
+                dropRect.visible = true;
+                dropText.visible = true;
+            }
+            onExited: {
+                dropRect.visible = false;
+                dropText.visible = false;
+            }
+            onDropped: {
+                var sourceColumn = dragData.sourceColumn;
+                var sourceTask = dragData.sourceTask;
+
+                dropRect.visible = false;
+                dropText.visible = false;
+
+                if (sourceColumn != columnIndex && columnIndex != -1 && sourceColumn != -1) {
+                    dragData.wasDropped = true;
+                    kanbanModel.moveTask(sourceColumn, sourceTask, columnIndex);                    
+                }
+            }
+        }
+
         // Add Task
         Item {
             Layout.fillWidth: true
+            anchors.top: dropArea.bottom
+
             Rectangle {
                 id: newTask
                 anchors.top: taskDesc.bottom
@@ -54,7 +107,7 @@ Item {
                 color: "#dddddd"
                 radius: 8
                 border.color: "#aaaaaa"
-                width: 200
+                width: col.width
                 Text {
                     text: "+ Add Task"
                     anchors.centerIn: parent
@@ -76,7 +129,7 @@ Item {
             TextField {
                 id: taskTitle
                 anchors.bottom: taskPriority.top
-                width: 200
+                width: col.width
                 text: "Set Task Title"
                 font.pixelSize: 14
                 color: "black"
@@ -85,7 +138,7 @@ Item {
             TextField {
                 id: taskPriority
                 anchors.bottom: taskDesc.top
-                width: 200
+                width: col.width
                 text: "Set Task Priority 1 > 3"
                 font.pixelSize: 12
                 color: "black"
@@ -93,7 +146,7 @@ Item {
             }
             TextArea {
                 id: taskDesc
-                width: 200
+                width: col.width
                 text: "Set Task Description"
                 font.pixelSize: 12
                 color: "black"

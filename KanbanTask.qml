@@ -33,10 +33,24 @@ Item {
                     color: "black"
                     text: "Task Title"
                 }
-                Button {
-                    text: "X"
-                    onClicked: {
-                        kanbanModel.removeTask(sourceColumn, sourceTask);
+                Item {
+                    Rectangle {
+                        id: deleteTask
+                        width: 15
+                        height: 15
+                        radius: 5
+                        Text {
+                            text: "X"
+                            anchors.centerIn: parent
+                            font.pixelSize: 12
+                            color: "#333333"
+                        }
+                    }
+                    MouseArea {
+                        anchors.fill: deleteTask
+                        onClicked: {
+                            kanbanModel.removeTask(sourceColumn, sourceTask);
+                        }
                     }
                 }
             }
@@ -47,6 +61,30 @@ Item {
                 text: "Task Description"
                 wrapMode: Text.WordWrap
                 visible: taskDescription.text.length > 0
+            }
+        }
+
+        Drag.active: dragArea.drag.active
+        Drag.hotSpot.x: dragArea.width / 2
+        Drag.hotSpot.y: dragArea.height / 2
+
+        MouseArea {
+            propagateComposedEvents: true
+            id: dragArea
+            anchors.fill: parent
+            drag.target: taskContainer
+            drag.axis: Drag.XAndYAxis
+            onPressed: {
+                dragData.sourceColumn = sourceColumn;
+                dragData.sourceTask = sourceTask;
+                dragData.wasDropped = false;
+            }
+            onReleased: {
+                parent.Drag.drop()
+                if (!dragData.wasDropped) {
+                    taskContainer.x = 0;
+                    taskContainer.y = 0;
+                }
             }
         }
     }

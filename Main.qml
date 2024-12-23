@@ -31,7 +31,7 @@ Window {
                 TextField {
                     id: columnName
                     width: parent.width
-                    text: "Set Column Name"
+                    placeholderText: "Set Column Name"
                     font.pixelSize: 16
                     color: "black"
                     font.bold: true
@@ -62,5 +62,11 @@ Window {
                 }
             }
         }
+    }
+    QtObject {
+        id: dragData
+        property int sourceColumn: -1
+        property int sourceTask: -1
+        property bool wasDropped: false
     }
 }
