@@ -56,6 +56,17 @@ void KanbanModel::removeColumn(int index) {
     endRemoveRows();
 }
 
+void KanbanModel::renameColumn(int columnId, const QString &newColumnName) {
+    if (columnId < 0 || columnId >= m_columns.size())
+        return;
+
+    m_columns[columnId].name = newColumnName;
+
+    QModelIndex index = createIndex(columnId, 0);
+    emit dataChanged(index, index, {NameRole});
+}
+
+
 void KanbanModel::addTask(int columnId, const QString &title, const QString &description, const QString &priority) {
     TaskModel *targetTasks = m_columns[columnId].tasks;
     targetTasks->addTask(title, description, priority);

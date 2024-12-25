@@ -15,21 +15,40 @@ ColumnLayout {
     // Column name
     Row {
         Layout.maximumHeight: 40
-        Text {
-            id: columnText
-            text: ""
-            font.pixelSize: 16
-            color: "black"
-            font.bold: true
-            width: col.width - 40
-            height: 40
-        }
-        Button {
-            text: "Edit"
-            onClicked: {
-                //kanbanModel.removeColumn(columnIndex);
+        TextField {
+                id: columnTextField
+                text: columnText.text
+                font.pixelSize: 16
+                color: "black"
+                font.bold: true
+                width: col.width - 40
+                height: 40
+                visible: false
+                onEditingFinished: {
+                    kanbanModel.renameColumn(columnIndex, text);
+                    columnText.text = text;
+                    visible = false;
+                    columnText.visible = true;
+                }
             }
-        }
+            Text {
+                id: columnText
+                text: ""
+                font.pixelSize: 16
+                color: "black"
+                font.bold: true
+                width: col.width - 40
+                height: 40
+                visible: true
+            }
+            Button {
+                text: "Edit"
+                onClicked: {
+                    columnTextField.visible = true;
+                    columnTextField.forceActiveFocus();
+                    columnText.visible = false;
+                }
+            }
         Button {
             text: "X"
             onClicked: {

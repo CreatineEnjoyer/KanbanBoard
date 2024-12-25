@@ -24,6 +24,7 @@ public:
 
     Q_INVOKABLE void addColumn(const QString &columnName);
     Q_INVOKABLE void removeColumn(int index);
+    Q_INVOKABLE void renameColumn(int columnId, const QString &newColumnName);
     Q_INVOKABLE void addTask(int columnId, const QString &title, const QString &description, const QString &priority = "Low");
     Q_INVOKABLE void removeTask(int columnId, int taskId);
     Q_INVOKABLE void moveTask(int sourceColumn, int sourceTask, int targetColumn);
