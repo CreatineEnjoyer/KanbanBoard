@@ -9,16 +9,16 @@ Item {
     property int sourceTask: -1
     property int priority: 0
 
-    width: 200
+    width: 210
     height: 40  + taskDescription.height
 
     Rectangle {
         id: taskContainer
         width: parent.width
         height: parent.height
-        color: priority === 1 ? "orangered" : priority === 2 ? "yellow" : "lime"
+        color: parent.priority === 1 ? "orangered" : parent.priority === 2 ? "yellow" : "lime"
         radius: 5
-        border.color: priority === 1 ? "red" : priority === 2 ? "orange" : "green"
+        border.color: parent.priority === 1 ? "red" : parent.priority === 2 ? "orange" : "green"
         border.width: 1
 
         Column {
@@ -88,4 +88,5 @@ Item {
             }
         }
     }
+
 }

@@ -7,11 +7,13 @@ ColumnLayout {
     property int columnIndex: -1
     property alias columnTitle: columnText.text
     property var columnTasks
-
-    width: 200
+    property var colAreaWidth: width - 20 - margins
+    property var margins: 10
+    width: 240
     height: parent.height
+
+    // Column name
     Row {
-        width: col.width
         Layout.maximumHeight: 40
         Text {
             id: columnText
@@ -30,14 +32,31 @@ ColumnLayout {
         }
     }
 
+    // Scrollable area
     Flickable {
         id: flickable
-        contentHeight: tasksList.contentHeight
-        Layout.minimumHeight: parent.height
+        Layout.fillWidth: true
+        Layout.fillHeight: true
+        clip: true
+        rightMargin: parent.margins
+
+        // Dynamic height of scrollbar area
+        contentHeight: tasksList.contentHeight + dropArea.height + addTaskArea.height
+        interactive: true
+
+        // Scrollbar
+        ScrollBar.vertical: ScrollBar {
+            id: verticalScrollBar
+            policy: ScrollBar.AlwaysOn
+        }
+
+        // Task list
         ListView {
             id: tasksList
-            anchors.fill: parent
-            model: columnTasks
+            width: col.colAreaWidth
+            height: tasksList.contentHeight
+            model: col.columnTasks
+            spacing: 5
 
             delegate: KanbanTask {
                 taskTitle: model.title
@@ -46,18 +65,18 @@ ColumnLayout {
                 sourceTask: index
                 priority: model.priority
             }
-            spacing: 5
         }
 
+        // Drop area for moving tasks
         DropArea {
             id: dropArea
+            width: col.colAreaWidth
+            height: 70
             anchors.top: tasksList.bottom
-            width: col.width
-            height: 100
 
             Rectangle {
-                id:dropRect
-                width: parent.width
+                id: dropRect
+                width: col.colAreaWidth
                 height: parent.height
                 color: "#55dddddd"
                 radius: 8
@@ -90,16 +109,45 @@ ColumnLayout {
 
                 if (sourceColumn != columnIndex && columnIndex != -1 && sourceColumn != -1) {
                     dragData.wasDropped = true;
-                    kanbanModel.moveTask(sourceColumn, sourceTask, columnIndex);                    
+                    kanbanModel.moveTask(sourceColumn, sourceTask, columnIndex);
                 }
             }
         }
 
-        // Add Task
+        // Add Task Area
         Item {
-            Layout.fillWidth: true
+            id: addTaskArea
+            width: col.colAreaWidth
+            height: taskTitle.height + taskPriority.height + taskDesc.height + newTask.height + 20
             anchors.top: dropArea.bottom
 
+            TextField {
+                id: taskTitle
+                width: parent.width
+                placeholderText: "Set Task Title"
+                font.pixelSize: 14
+                color: "black"
+                font.bold: true
+            }
+            TextField {
+                id: taskPriority
+                anchors.top: taskTitle.bottom
+                width: parent.width
+                placeholderText: "Set Task Priority 1 > 3"
+                font.pixelSize: 12
+                color: "black"
+                validator: IntValidator { bottom: 1; top: 3 }
+            }
+            TextArea {
+                id: taskDesc
+                anchors.top: taskPriority.bottom
+                width: parent.width
+                placeholderText: "Set Task Description"
+                font.pixelSize: 12
+                color: "black"
+            }
+
+            // Add new task button
             Rectangle {
                 id: newTask
                 anchors.top: taskDesc.bottom
@@ -107,7 +155,7 @@ ColumnLayout {
                 color: "#dddddd"
                 radius: 8
                 border.color: "#aaaaaa"
-                width: col.width
+                width: parent.width
                 Text {
                     text: "+ Add Task"
                     anchors.centerIn: parent
@@ -125,31 +173,6 @@ ColumnLayout {
                         taskPriority.text = ""
                     }
                 }
-            }
-            TextField {
-                id: taskTitle
-                anchors.bottom: taskPriority.top
-                width: col.width
-                text: "Set Task Title"
-                font.pixelSize: 14
-                color: "black"
-                font.bold: true
-            }
-            TextField {
-                id: taskPriority
-                anchors.bottom: taskDesc.top
-                width: col.width
-                text: "Set Task Priority 1 > 3"
-                font.pixelSize: 12
-                color: "black"
-                validator: IntValidator{bottom: 1; top: 3}
-            }
-            TextArea {
-                id: taskDesc
-                width: col.width
-                text: "Set Task Description"
-                font.pixelSize: 12
-                color: "black"
             }
         }
     }

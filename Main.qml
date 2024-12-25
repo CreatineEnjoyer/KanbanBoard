@@ -6,16 +6,24 @@ Window {
     width: 1280
     height: 720
     visible: true
-    title: qsTr("Hello World")
+    title: qsTr("Kanban Board")
+    property var margins: 10
+    property var columnAreaWidth: width - margins * 2
+    property var columnAreaHeight: height - margins * 2
 
     Flickable {
         anchors.fill: parent
         contentWidth: kanbanColumns.width
         contentHeight: height
+        topMargin: windowId.margins
+        bottomMargin: windowId.margins
+        leftMargin: windowId.margins
+        rightMargin: windowId.margins
 
         Row {
             id: kanbanColumns
             spacing: 20
+            height: windowId.columnAreaHeight
             Repeater {
                 model: kanbanModel
                 delegate: KanbanColumn {
@@ -27,7 +35,7 @@ Window {
             // Add Column
             Rectangle {
                 width: 200
-                height: windowId.height - 80
+                height: windowId.columnAreaHeight - 80
                 TextField {
                     id: columnName
                     width: parent.width
