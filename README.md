@@ -37,3 +37,5 @@ The following features have been implemented so far:
 - Dragging and dropping tasks between columns.
 - Changing task appearance based on priority (low, medium, high).
 - Dragging tasks with the mouse.
+- Editting columns.
+- Editting task.
