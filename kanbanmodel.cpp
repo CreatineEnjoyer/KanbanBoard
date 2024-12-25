@@ -101,3 +101,8 @@ void KanbanModel::moveTask(int sourceColumn, int sourceTask, int targetColumn) {
     // Add task to target
     targetTasks->addTask(title, description, priority);
 }
+
+void KanbanModel::editTask(int columnId, int taskId, const QString &newTitle, const QString &newDescription, const QString &newPriority) {
+    TaskModel *targetTasks = m_columns[columnId].tasks;
+    targetTasks->editTask(taskId, newTitle, newDescription, newPriority);
+}

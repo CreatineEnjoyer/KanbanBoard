@@ -16,39 +16,43 @@ ColumnLayout {
     Row {
         Layout.maximumHeight: 40
         TextField {
-                id: columnTextField
-                text: columnText.text
-                font.pixelSize: 16
-                color: "black"
-                font.bold: true
-                width: col.width - 40
-                height: 40
-                visible: false
-                onEditingFinished: {
-                    kanbanModel.renameColumn(columnIndex, text);
-                    columnText.text = text;
-                    visible = false;
-                    columnText.visible = true;
-                }
+            id: columnTextField
+            text: columnText.text
+            font.pixelSize: 16
+            color: "black"
+            font.bold: true
+            width: col.width - 40
+            height: 40
+            visible: false
+            onEditingFinished: {
+                kanbanModel.renameColumn(columnIndex, text);
+                columnText.text = text;
+                visible = false;
+                columnText.visible = true;
             }
-            Text {
-                id: columnText
-                text: ""
-                font.pixelSize: 16
-                color: "black"
-                font.bold: true
-                width: col.width - 40
-                height: 40
-                visible: true
+        }
+        Text {
+            id: columnText
+            text: ""
+            font.pixelSize: 16
+            color: "black"
+            font.bold: true
+            width: col.width - 40
+            height: 40
+            visible: true
+        }
+
+        // Edit column button
+        Button {
+            text: "Edit"
+            onClicked: {
+                columnTextField.visible = true;
+                columnTextField.forceActiveFocus();
+                columnText.visible = false;
             }
-            Button {
-                text: "Edit"
-                onClicked: {
-                    columnTextField.visible = true;
-                    columnTextField.forceActiveFocus();
-                    columnText.visible = false;
-                }
-            }
+        }
+
+        // Delete column button
         Button {
             text: "X"
             onClicked: {

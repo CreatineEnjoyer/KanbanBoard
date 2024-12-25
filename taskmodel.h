@@ -27,6 +27,8 @@ public:
 
     Q_INVOKABLE void addTask(const QString &title, const QString &description, const QString &priority = "Low");
     Q_INVOKABLE void removeTask(int index);
+    Q_INVOKABLE void editTask(int index, const QString &newTitle, const QString &newDescription, const QString &newPriority);
+
 
 private:
     QList<Task> m_tasks;

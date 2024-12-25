@@ -50,4 +50,16 @@ void TaskModel::removeTask(int index) {
     endRemoveRows();
 }
 
+void TaskModel::editTask(int index, const QString &newTitle, const QString &newDescription, const QString &newPriority) {
+    if (index < 0 || index >= m_tasks.size())
+        return;
+
+    m_tasks[index].title = newTitle;
+    m_tasks[index].description = newDescription;
+    m_tasks[index].priority = newPriority;
+
+    QModelIndex modelIndex = createIndex(index, 0);
+    emit dataChanged(modelIndex, modelIndex, {TitleRole, DescriptionRole, PriorityRole});
+}
+
 

@@ -3,6 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 Item {
+    id: kanbanTask
     property alias taskTitle: taskTitle.text
     property alias taskDescription: taskDescription.text
     property int sourceColumn: -1
@@ -21,6 +22,7 @@ Item {
         border.color: parent.priority == "High" ? "red" : parent.priority == "Medium" ? "orange" : "green"
         border.width: 1
 
+        // Task title
         Column {
             anchors.fill: parent
             anchors.margins: 5
@@ -67,7 +69,7 @@ Item {
             MouseArea {
                 anchors.fill: editTask
                 onClicked: {
-                    //kanbanModel.removeTask(sourceColumn, sourceTask);
+                    editDialog.open();
                 }
             }
             anchors.right: parent.right
@@ -103,6 +105,46 @@ Item {
             anchors.rightMargin: deleteTask.width
         }
 
+        // Dialog popup to edit task
+        Dialog {
+            id: editDialog
+            title: "Edit Task"
+            standardButtons: Dialog.Ok | Dialog.Cancel
+            visible: false
+            modal: true
+
+            ColumnLayout {
+                spacing: 10
+                anchors.margins: 20
+
+                TextField {
+                    id: editTitle
+                    text: taskTitle.text
+                    placeholderText: "Edit Task Title"
+                }
+
+                ComboBox {
+                    id: editPriority
+                    model: ["High", "Medium", "Low"]
+                    currentIndex: ["High", "Medium", "Low"].indexOf(priority)
+                }
+
+                TextArea {
+                    id: editDescription
+                    text: taskDescription.text
+                    placeholderText: "Edit Task Description"
+                }
+            }
+
+            onAccepted: {
+                kanbanModel.editTask(sourceColumn, sourceTask, editTitle.text, editDescription.text, editPriority.currentText);
+                taskTitle.text = editTitle.text;
+                taskDescription.text = editDescription.text;
+                priority.text = editPriority.currentText;
+            }
+        }
+
+        // Drag task functionality
         Drag.active: dragArea.drag.active
         Drag.hotSpot.x: dragArea.width / 2
         Drag.hotSpot.y: dragArea.height / 2
