@@ -21,8 +21,14 @@ ColumnLayout {
             font.pixelSize: 16
             color: "black"
             font.bold: true
-            width: col.width - 20
+            width: col.width - 40
             height: 40
+        }
+        Button {
+            text: "Edit"
+            onClicked: {
+                //kanbanModel.removeColumn(columnIndex);
+            }
         }
         Button {
             text: "X"
@@ -129,14 +135,14 @@ ColumnLayout {
                 color: "black"
                 font.bold: true
             }
-            TextField {
+            ComboBox {
                 id: taskPriority
                 anchors.top: taskTitle.bottom
                 width: parent.width
-                placeholderText: "Set Task Priority 1 > 3"
+                displayText: "Task Priority: " + currentText
                 font.pixelSize: 12
-                color: "black"
-                validator: IntValidator { bottom: 1; top: 3 }
+                model: [ "High", "Medium", "Low" ]
+
             }
             TextArea {
                 id: taskDesc
@@ -167,10 +173,10 @@ ColumnLayout {
                 anchors.fill: newTask
                 onClicked: {
                     if (taskTitle.text.length != 0 && taskDesc.text.length != 0) {
-                        kanbanModel.addTask(columnIndex, taskTitle.text, taskDesc.text, taskPriority.text);
+                        kanbanModel.addTask(columnIndex, taskTitle.text, taskDesc.text, taskPriority.currentText);
                         taskTitle.text = ""
                         taskDesc.text = ""
-                        taskPriority.text = ""
+
                     }
                 }
             }

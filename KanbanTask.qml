@@ -7,7 +7,7 @@ Item {
     property alias taskDescription: taskDescription.text
     property int sourceColumn: -1
     property int sourceTask: -1
-    property int priority: 0
+    property string priority: ""
 
     width: 210
     height: 40  + taskDescription.height
@@ -16,9 +16,9 @@ Item {
         id: taskContainer
         width: parent.width
         height: parent.height
-        color: parent.priority === 1 ? "orangered" : parent.priority === 2 ? "yellow" : "lime"
+        color: parent.priority == "High" ? "orangered" : parent.priority == "Medium" ? "yellow" : "lime"
         radius: 5
-        border.color: parent.priority === 1 ? "red" : parent.priority === 2 ? "orange" : "green"
+        border.color: parent.priority == "High" ? "red" : parent.priority == "Medium" ? "orange" : "green"
         border.width: 1
 
         Column {
@@ -27,41 +27,80 @@ Item {
 
             RowLayout {
                 Layout.fillWidth: true
+                Layout.alignment: Qt.AlignTop
+                spacing: 5
                 Text {
                     id: taskTitle
                     font.pixelSize: 16
                     color: "black"
-                    text: "Task Title"
-                }
-                Item {
-                    Rectangle {
-                        id: deleteTask
-                        width: 15
-                        height: 15
-                        radius: 5
-                        Text {
-                            text: "X"
-                            anchors.centerIn: parent
-                            font.pixelSize: 12
-                            color: "#333333"
-                        }
-                    }
-                    MouseArea {
-                        anchors.fill: deleteTask
-                        onClicked: {
-                            kanbanModel.removeTask(sourceColumn, sourceTask);
-                        }
-                    }
+                    text: ""
+                    Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
                 }
             }
             Text {
                 id: taskDescription
                 font.pixelSize: 12
                 color: "black"
-                text: "Task Description"
+                text: ""
                 wrapMode: Text.WordWrap
                 visible: taskDescription.text.length > 0
             }
+        }
+
+        // Edit task button
+        Item {
+            Rectangle {
+                id: editTask
+                width: 30
+                height: 15
+                radius: 5
+                color: "white"
+                border.color: "#333333"
+                border.width: 1
+                Text {
+                    text: "Edit"
+                    anchors.centerIn: parent
+                    font.pixelSize: 12
+                    color: "#333333"
+                }
+            }
+            MouseArea {
+                anchors.fill: editTask
+                onClicked: {
+                    //kanbanModel.removeTask(sourceColumn, sourceTask);
+                }
+            }
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.rightMargin: editTask.width + deleteTask.width
+        }
+
+        // Delete task button
+        Item {
+            Rectangle {
+                id: deleteTask
+                width: 15
+                height: 15
+                radius: 5
+                color: "white"
+                border.color: "#333333"
+                border.width: 1
+                Text {
+                    text: "X"
+                    anchors.centerIn: parent
+                    font.pixelSize: 12
+                    color: "#333333"
+                }
+            }
+            MouseArea {
+                anchors.fill: deleteTask
+                onClicked: {
+                    kanbanModel.removeTask(sourceColumn, sourceTask);
+                }
+            }
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.rightMargin: deleteTask.width
         }
 
         Drag.active: dragArea.drag.active

@@ -9,7 +9,7 @@ public:
     struct Task {
         QString title;
         QString description;
-        int priority;
+        QString priority;
     };
 
     enum TaskRoles {
@@ -25,7 +25,7 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-    Q_INVOKABLE void addTask(const QString &title, const QString &description, int priority = 3);
+    Q_INVOKABLE void addTask(const QString &title, const QString &description, const QString &priority = "Low");
     Q_INVOKABLE void removeTask(int index);
 
 private:
