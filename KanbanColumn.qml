@@ -12,6 +12,31 @@ ColumnLayout {
     width: 240
     height: parent.height
 
+    opacity: 0
+    scale: 0.8
+    property int durationAnimation: 300
+
+    Behavior on opacity {
+        NumberAnimation { duration: col.durationAnimation; easing.type: Easing.InOutQuad }
+    }
+    Behavior on scale {
+        NumberAnimation { duration: col.durationAnimation; easing.type: Easing.InOutQuad }
+    }
+    Component.onCompleted: {
+        opacity = 1;
+        scale = 1;
+    }
+
+    // Timer to delay removing task for started animations
+    Timer {
+        id: deleteTimer
+        interval: parent.durationAnimation
+        repeat: false
+        onTriggered: {
+            kanbanModel.removeColumn(columnIndex);
+        }
+    }
+
     // Column name
     Row {
         Layout.maximumHeight: 40
@@ -56,7 +81,9 @@ ColumnLayout {
         Button {
             text: "X"
             onClicked: {
-                kanbanModel.removeColumn(columnIndex);
+                col.opacity = 0;
+                col.scale = 0;
+                deleteTimer.start();
             }
         }
     }
@@ -199,7 +226,6 @@ ColumnLayout {
                         kanbanModel.addTask(columnIndex, taskTitle.text, taskDesc.text, taskPriority.currentText);
                         taskTitle.text = ""
                         taskDesc.text = ""
-
                     }
                 }
             }
