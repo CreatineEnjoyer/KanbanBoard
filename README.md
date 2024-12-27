@@ -39,3 +39,5 @@ The following features have been implemented so far:
 - Dragging tasks with the mouse.
 - Editting columns.
 - Editting task.
+- Animation for adding and removing tasks.
+- Animation for adding and removing columns.
