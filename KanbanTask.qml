@@ -13,6 +13,31 @@ Item {
     width: 210
     height: 40  + taskDescription.height
 
+    opacity: 0
+    scale: 0.8
+    property int durationAnimation: 300
+
+    Behavior on opacity {
+        NumberAnimation { duration: kanbanTask.durationAnimation; easing.type: Easing.InOutQuad }
+    }
+    Behavior on scale {
+        NumberAnimation { duration: kanbanTask.durationAnimation; easing.type: Easing.InOutQuad }
+    }
+    Component.onCompleted: {
+        opacity = 1;
+        scale = 1;
+    }
+
+    // Timer to delay removing task for started animations
+    Timer {
+        id: deleteTimer
+        interval: parent.durationAnimation
+        repeat: false
+        onTriggered: {
+            kanbanModel.removeTask(sourceColumn, sourceTask);
+        }
+    }
+
     Rectangle {
         id: taskContainer
         width: parent.width
@@ -97,7 +122,9 @@ Item {
             MouseArea {
                 anchors.fill: deleteTask
                 onClicked: {
-                    kanbanModel.removeTask(sourceColumn, sourceTask);
+                    kanbanTask.opacity = 0;
+                    kanbanTask.scale = 0;
+                    deleteTimer.start();
                 }
             }
             anchors.right: parent.right
@@ -169,5 +196,4 @@ Item {
             }
         }
     }
-
 }
