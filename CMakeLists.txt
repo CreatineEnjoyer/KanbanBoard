@@ -4,7 +4,7 @@ project(KanbanBoard VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Quick)
+find_package(Qt6 REQUIRED COMPONENTS Quick Sql)
 
 qt_standard_project_setup(REQUIRES 6.5)
 
@@ -19,10 +19,11 @@ qt_add_qml_module(appKanbanBoard
         Main.qml
         SOURCES kanbanmodel.h kanbanmodel.cpp
         SOURCES taskmodel.h taskmodel.cpp
-        SOURCES databasemanager.h databasemanager.cpp
+        SOURCES DatabaseSQLite.h DatabaseSQLite.cpp
         QML_FILES KanbanColumn.qml
         QML_FILES KanbanTask.qml
         SOURCES column.h column.cpp
+        SOURCES IDatabaseManage.h
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
@@ -37,7 +38,7 @@ set_target_properties(appKanbanBoard PROPERTIES
 )
 
 target_link_libraries(appKanbanBoard
-    PRIVATE Qt6::Quick
+    PRIVATE Qt6::Core Qt6::Quick Qt6::Sql
 )
 
 include(GNUInstallDirs)

@@ -62,4 +62,7 @@ void TaskModel::editTask(int index, const QString &newTitle, const QString &newD
     emit dataChanged(modelIndex, modelIndex, {TitleRole, DescriptionRole, PriorityRole});
 }
 
+QList<TaskModel::Task> TaskModel::getTasks() {
+    return this->m_tasks;
+}
 

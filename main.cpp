@@ -1,5 +1,6 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include "DatabaseSQLite.h"
 #include "kanbanmodel.h"
 #include <QQmlContext>
 
@@ -9,7 +10,8 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
-    KanbanModel kanbanModel;
+    IDatabaseManage *dbManager = new DatabaseSQLite();
+    KanbanModel kanbanModel(dbManager);
 
     engine.rootContext()->setContextProperty("kanbanModel", &kanbanModel);
 

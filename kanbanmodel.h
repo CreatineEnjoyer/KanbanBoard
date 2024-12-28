@@ -3,6 +3,7 @@
 
 #include <QAbstractListModel>
 #include "Column.h"
+#include "IDatabaseManage.h"
 
 class KanbanModel : public QAbstractListModel {
     Q_OBJECT
@@ -14,7 +15,7 @@ public:
         TasksRole
     };
 
-    explicit KanbanModel(QObject *parent = nullptr);
+    explicit KanbanModel(IDatabaseManage *dbManager, QObject *parent = nullptr);
     ~KanbanModel();
 
     // Required methods
@@ -30,8 +31,11 @@ public:
     Q_INVOKABLE void moveTask(int sourceColumn, int sourceTask, int targetColumn);
     Q_INVOKABLE void editTask(int columnId, int taskId, const QString &newTitle, const QString &newDescription, const QString &newPriority);
 
+    void loadFromDatabase();
+
 private:
     QList<Column> m_columns;
+    IDatabaseManage *dbManager;
 };
 
 #endif // KANBANMODEL_H
