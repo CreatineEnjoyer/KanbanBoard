@@ -18,7 +18,7 @@ KanbanBoard is a task management application built using **QtQuick**, **QML**, a
 - **Smooth transitions**: Tasks are smoothly moved when dragged between columns.
 - **Visual effects**: There are animations for adding and removing tasks and columns, enhancing the user experience.
 
-### Mouse and Keyboard Support
+### Mouse Support
 - **Mouse support**: Tasks can be moved by dragging them with the mouse.
 
 ### Saving Board State
