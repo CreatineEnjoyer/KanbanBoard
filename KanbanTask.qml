@@ -93,6 +93,9 @@ Item {
             }
             MouseArea {
                 anchors.fill: editTask
+                hoverEnabled: true
+                onEntered: editTask.color = "#bbbbbb"
+                onExited: editTask.color = "white"
                 onClicked: {
                     editDialog.open();
                 }
@@ -121,6 +124,9 @@ Item {
             }
             MouseArea {
                 anchors.fill: deleteTask
+                hoverEnabled: true
+                onEntered: deleteTask.color = "#bbbbbb"
+                onExited: deleteTask.color = "white"
                 onClicked: {
                     kanbanTask.opacity = 0;
                     kanbanTask.scale = 0;

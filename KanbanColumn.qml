@@ -221,6 +221,9 @@ ColumnLayout {
             }
             MouseArea {
                 anchors.fill: newTask
+                hoverEnabled: true
+                onEntered: newTask.color = "#bbbbbb"
+                onExited: newTask.color = "#dddddd"
                 onClicked: {
                     if (taskTitle.text.length != 0 && taskDesc.text.length != 0) {
                         kanbanModel.addTask(columnIndex, taskTitle.text, taskDesc.text, taskPriority.currentText);

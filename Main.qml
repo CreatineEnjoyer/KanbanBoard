@@ -61,6 +61,9 @@ Window {
                 }
                 MouseArea {
                     anchors.fill: newColumn
+                    hoverEnabled: true
+                    onEntered: newColumn.color = "#bbbbbb"
+                    onExited: newColumn.color = "#dddddd"
                     onClicked: {
                         if (columnName.text.length != 0) {
                             kanbanModel.addColumn(columnName.text);
