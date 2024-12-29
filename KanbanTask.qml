@@ -47,7 +47,7 @@ Item {
         border.color: parent.priority == "High" ? "red" : parent.priority == "Medium" ? "orange" : "green"
         border.width: 1
 
-        // Task title
+        // Task texts
         Column {
             anchors.fill: parent
             anchors.margins: 5
@@ -69,7 +69,8 @@ Item {
                 font.pixelSize: 12
                 color: "black"
                 text: ""
-                wrapMode: Text.WordWrap
+                width: kanbanTask.width - 5
+                wrapMode: Text.Wrap
                 visible: taskDescription.text.length > 0
             }
         }
@@ -150,22 +151,39 @@ Item {
                 spacing: 10
                 anchors.margins: 20
 
-                TextField {
-                    id: editTitle
-                    text: taskTitle.text
-                    placeholderText: "Edit Task Title"
+                Row {
+                    Text {
+                        text: "Title: "
+                    }
+                    TextField {
+                        id: editTitle
+                        text: taskTitle.text
+                        placeholderText: "Edit Task Title"
+                        validator: RegularExpressionValidator { regularExpression: /.{2,17}/ }
+                    }
                 }
 
-                ComboBox {
-                    id: editPriority
-                    model: ["High", "Medium", "Low"]
-                    currentIndex: ["High", "Medium", "Low"].indexOf(priority)
+                Row {
+                    Text {
+                        text: "Priority: "
+                    }
+                    ComboBox {
+                        id: editPriority
+                        model: ["High", "Medium", "Low"]
+                        currentIndex: ["High", "Medium", "Low"].indexOf(priority)
+                    }
                 }
 
-                TextArea {
-                    id: editDescription
-                    text: taskDescription.text
-                    placeholderText: "Edit Task Description"
+                Row {
+                    Text {
+                        text: "Description: "
+                    }
+                    TextArea {
+                        id: editDescription
+                        text: taskDescription.text
+                        placeholderText: "Edit Task Description"
+                        wrapMode: Text.WrapAnywhere
+                    }
                 }
             }
 

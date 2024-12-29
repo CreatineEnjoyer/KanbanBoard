@@ -43,6 +43,7 @@ Window {
                     font.pixelSize: 16
                     color: "black"
                     font.bold: true
+                    validator: RegularExpressionValidator { regularExpression: /.{2,20}/ }
                 }
                 Rectangle {
                     id: newColumn

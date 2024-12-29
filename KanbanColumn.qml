@@ -40,22 +40,6 @@ ColumnLayout {
     // Column name
     Row {
         Layout.maximumHeight: 40
-        TextField {
-            id: columnTextField
-            text: columnText.text
-            font.pixelSize: 16
-            color: "black"
-            font.bold: true
-            width: col.width - 40
-            height: 40
-            visible: false
-            onEditingFinished: {
-                kanbanModel.renameColumn(columnIndex, text);
-                columnText.text = text;
-                visible = false;
-                columnText.visible = true;
-            }
-        }
         Text {
             id: columnText
             text: ""
@@ -67,13 +51,40 @@ ColumnLayout {
             visible: true
         }
 
+        // Dialog popup to edit column name
+        Dialog {
+            id: editColumnDialog
+            title: "Change column name"
+            standardButtons: Dialog.Ok | Dialog.Cancel
+            visible: false
+            modal: true
+
+            ColumnLayout {
+                spacing: 10
+                anchors.margins: 20
+
+                Text {
+                    text: "Column name: "
+                }
+                TextField {
+                    id: editColumnTitle
+                    text: columnText.text
+                    placeholderText: "Edit Column Title"
+                    validator: RegularExpressionValidator { regularExpression: /.{2,20}/ }
+                }
+            }
+
+            onAccepted: {
+                kanbanModel.renameColumn(columnIndex, editColumnTitle.text);
+                columnText.text = editColumnTitle.text;
+            }
+        }
+
         // Edit column button
         Button {
             text: "Edit"
             onClicked: {
-                columnTextField.visible = true;
-                columnTextField.forceActiveFocus();
-                columnText.visible = false;
+                editColumnDialog.open();
             }
         }
 
@@ -184,6 +195,7 @@ ColumnLayout {
                 font.pixelSize: 14
                 color: "black"
                 font.bold: true
+                validator: RegularExpressionValidator { regularExpression: /.{2,17}/ }
             }
             ComboBox {
                 id: taskPriority
@@ -201,6 +213,7 @@ ColumnLayout {
                 placeholderText: "Set Task Description"
                 font.pixelSize: 12
                 color: "black"
+                wrapMode: Text.WrapAnywhere
             }
 
             // Add new task button
