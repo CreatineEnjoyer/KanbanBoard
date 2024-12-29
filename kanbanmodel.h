@@ -31,6 +31,7 @@ public:
     Q_INVOKABLE void moveTask(int sourceColumn, int sourceTask, int targetColumn);
     Q_INVOKABLE void editTask(int columnId, int taskId, const QString &newTitle, const QString &newDescription, const QString &newPriority);
 
+    Q_INVOKABLE bool checkUniqueness(const QString &text);
     void loadFromDatabase();
 
 private:

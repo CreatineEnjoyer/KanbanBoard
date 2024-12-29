@@ -155,3 +155,17 @@ void KanbanModel::loadFromDatabase() {
         endInsertRows();
     }
 }
+
+bool KanbanModel::checkUniqueness(const QString &text) {
+    for (int columnId = 0; columnId < m_columns.length(); columnId++) {
+        if (m_columns[columnId].name == text)
+            return false;
+        if (!m_columns[columnId].tasks->getTasks().empty()) {
+            for (int taskId = 0; taskId < m_columns[columnId].tasks->getTasks().length(); taskId++) {
+                if (m_columns[columnId].tasks->getTasks()[taskId].title == text)
+                    return false;
+            }
+        }
+    }
+    return true;
+}

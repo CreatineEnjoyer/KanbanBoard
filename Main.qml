@@ -66,7 +66,7 @@ Window {
                     onEntered: newColumn.color = "#bbbbbb"
                     onExited: newColumn.color = "#dddddd"
                     onClicked: {
-                        if (columnName.text.length != 0) {
+                        if (columnName.text.length != 0 && kanbanModel.checkUniqueness(columnName.text)) {
                             kanbanModel.addColumn(columnName.text);
                             columnName.text = ""
                         }

@@ -75,8 +75,10 @@ ColumnLayout {
             }
 
             onAccepted: {
-                kanbanModel.renameColumn(columnIndex, editColumnTitle.text);
-                columnText.text = editColumnTitle.text;
+                if (editColumnTitle.text.length != 0 && kanbanModel.checkUniqueness(editColumnTitle.text)){
+                    kanbanModel.renameColumn(columnIndex, editColumnTitle.text);
+                    columnText.text = editColumnTitle.text;
+                }
             }
         }
 
@@ -238,7 +240,7 @@ ColumnLayout {
                 onEntered: newTask.color = "#bbbbbb"
                 onExited: newTask.color = "#dddddd"
                 onClicked: {
-                    if (taskTitle.text.length != 0 && taskDesc.text.length != 0) {
+                    if (taskTitle.text.length != 0 && taskDesc.text.length != 0 && kanbanModel.checkUniqueness(taskTitle.text)) {
                         kanbanModel.addTask(columnIndex, taskTitle.text, taskDesc.text, taskPriority.currentText);
                         taskTitle.text = ""
                         taskDesc.text = ""

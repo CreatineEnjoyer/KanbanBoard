@@ -42,9 +42,9 @@ Item {
         id: taskContainer
         width: parent.width
         height: parent.height
-        color: parent.priority == "High" ? "orangered" : parent.priority == "Medium" ? "yellow" : "lime"
+        color: parent.priority == "High" ? "#ff5555" : parent.priority == "Medium" ? "yellow" : "lime"
         radius: 5
-        border.color: parent.priority == "High" ? "red" : parent.priority == "Medium" ? "orange" : "green"
+        border.color: parent.priority == "High" ? "red" : parent.priority == "Medium" ? "#dbb300" : "#009600"
         border.width: 1
 
         // Task texts
@@ -188,10 +188,12 @@ Item {
             }
 
             onAccepted: {
-                kanbanModel.editTask(sourceColumn, sourceTask, editTitle.text, editDescription.text, editPriority.currentText);
-                taskTitle.text = editTitle.text;
-                taskDescription.text = editDescription.text;
-                priority.text = editPriority.currentText;
+                if (editTitle.text.length != 0 && kanbanModel.checkUniqueness(editTitle.text)) {
+                    kanbanModel.editTask(sourceColumn, sourceTask, editTitle.text, editDescription.text, editPriority.currentText);
+                    taskTitle.text = editTitle.text;
+                    taskDescription.text = editDescription.text;
+                    priority.text = editPriority.currentText;
+                }
             }
         }
 
