@@ -20,10 +20,6 @@ KanbanBoard is a task management application built using **QtQuick**, **QML**, a
 
 ### Mouse and Keyboard Support
 - **Mouse support**: Tasks can be moved by dragging them with the mouse.
-- **Keyboard shortcuts**: Several shortcuts are available for managing tasks and columns:
-  - Add new column
-  - Edit task
-  - Delete selected task
 
 ### Saving Board State
 - The task board state is saved in a local **SQL database**.
